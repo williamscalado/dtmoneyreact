@@ -12,12 +12,13 @@ table{
     
 
 
-    th{
+    thead{
+        th{
         text-align: left;
         color: var(--text-body);
         padding: 1rem 2rem;
         line-height: 1.5rem;
-       
+        }
     }
      
         td{

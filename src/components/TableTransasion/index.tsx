@@ -1,6 +1,20 @@
 import { ConteinerSearch, ConteinerTableTrasasion } from "./sytle";
 import ImgCalendar from '../../assets/calendar-color.png'
-export function TableTransasion (){
+import { useEffect, useState } from "react";
+import { Api } from "../../services/Api";
+
+export function TableTransasion() {
+
+    const [trns, setTrns] = useState([])
+
+    useEffect(() => {
+        Api.get('transasion/')
+            .then(response => {
+                setTrns(response.data.transasions)
+            })
+            
+    }, [])
+
     return (
 
         <ConteinerTableTrasasion>
@@ -10,35 +24,30 @@ export function TableTransasion (){
             </ConteinerSearch>
             <table>
                 <thead>
-                    <th>Descrição</th>
-                    <th>Valor</th>
-                    <th>Categoria</th>
-                    <th>Data</th>
+                    <tr>
+                        <th>Descrição</th>
+                        <th>Valor</th>
+                        <th>Categoria</th>
+                        <th>Data</th>
+                    </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Venda</td>
-                        <td className="income">R$ 2500,00</td>
-                        <td>Externa</td>
-                        <td>
-                            
-                            24/02/2022
-                            <img src={ImgCalendar} alt="dat"  />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Aluguel</td>
-                        <td className="expense">- R$ 1500,00</td>
-                        <td>Casa</td>
-                        <td>
-                            
-                            24/02/2022
-                            <img src={ImgCalendar} alt="dat"  />
-                        </td>
-                    </tr>
-                 
+                    {trns.map(
+                        ({ id, desc, data, categoryid, value, type }) => {
+                            return (
+                                <tr key={id}>
+                                    <td>{desc}</td>
+                                    <td className={(type === 1) ? "expense" : "income"}>{value}</td>
+                                    <td>{categoryid}</td>
+                                    <td>{data}<img src={ImgCalendar} alt="dat" /></td>
+                                </tr>
+
+                            )
+                        })}
+
+
                 </tbody>
             </table>
         </ConteinerTableTrasasion>
-        )
+    )
 }
