@@ -8,7 +8,7 @@ export function Header() {
             <Content>
                 <img src={logoImg} id="logo" alt="My Money " />                
                 <ContentButtons>
-                    <ButtonsHeader>Nova Transição</ButtonsHeader> 
+                    <ButtonsHeader>Nova categoria</ButtonsHeader> 
                     <ButtonsHeader>Sair</ButtonsHeader> 
                 </ContentButtons>
                  </Content>

@@ -6,16 +6,13 @@ display: grid;
 width: 100%;
 grid-template-columns: repeat(3, 1fr);
 gap: 2rem;
+`;
 
-  
-
-
-`
 export const SumaryContent = styled.div`
 
 margin-top: -6rem;
 background-color : var(--shape);
-padding: 2rem 1rem;
+padding: 0.9rem 1rem;
 border-radius: 0.5rem;
 
 
@@ -32,13 +29,17 @@ border-radius: 0.5rem;
 
     p{
     color: var(--text-title);
+    
     }
 
     strong{
+        margin-top: 1rem;
         padding: 0 0.5rem;
         font-size: 2rem;
+        width: 100%;
         display: inline-block;
         font-weight: 500;
+        text-align: right;
     }
 
 
