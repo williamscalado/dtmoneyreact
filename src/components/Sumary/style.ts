@@ -18,16 +18,17 @@ background-color : var(--shape);
 padding: 2rem 1rem;
 border-radius: 0.5rem;
 
-&.bggreen{
-   
-    background-color: var(--green-select);
-    color: #fff;
-    
-    p{
-    color: #fff;
-    }
 
-}
+    &.bggreen{
+    
+        background-color: var(--green-select);
+        color: #fff;
+        
+        p{
+        color: #fff;
+        }
+
+    }
 
     p{
     color: var(--text-title);

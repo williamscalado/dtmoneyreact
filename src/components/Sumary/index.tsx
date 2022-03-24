@@ -2,13 +2,16 @@ import { ConteinerSumary, SumaryHeader, SumaryContent } from "./style";
 import imgIncome from '../../assets/income.svg'
 import imgOutcome from '../../assets/outcome.svg'
 import imgResult from '../../assets/total.svg'
+
+
+
 export function Sumary() {
     return (
         <ConteinerSumary>
 
             <SumaryContent>
                 <SumaryHeader>
-                    <p>Entrada</p>
+                    <p>Entradas</p>
                     <img src={imgIncome} alt="" />
                 </SumaryHeader>
                 <strong>R$ 5.000,00</strong>
