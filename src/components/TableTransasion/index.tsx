@@ -3,7 +3,11 @@ import ImgCalendar from '../../assets/calendar-color.png'
 import { useEffect, useState } from "react";
 import { Api } from "../../services/Api";
 
-export function TableTransasion() {
+interface porpsModal { 
+    openModal: () => void
+}
+
+export function TableTransasion({openModal}: porpsModal) {
 
     const [trns, setTrns] = useState([])
 
@@ -20,7 +24,7 @@ export function TableTransasion() {
         <ConteinerTableTrasasion>
             <ConteinerSearch>
                 <input type="text" placeholder="Buscar transição" />
-                <button>Nova Transição</button>
+                <button onClick={openModal}>Nova Transição</button>
             </ConteinerSearch>
             <table>
                 <thead>
