@@ -65,8 +65,28 @@ export const ConteinerTypeTransasion = styled.div`
     
 
 
-    button{
-        padding-top: 1rem;
+    
+
+   
+    
+   
+`;
+
+interface PropsButton {
+    isActive: boolean,
+    color: 'green' | 'red'
+}
+
+const colorSelect = {
+    green: "hsl(120,100%,90%)" ,
+    red: "hsl(0, 100%, 90%)"
+}
+
+
+export const ButtonActiveType = styled.button<PropsButton>`
+
+padding-top: 1rem;
+        background-color:  ${props => props.isActive ? colorSelect[props.color] : "transparent"}; 
         display: flex;
         justify-content:center;
         align-content: center;
@@ -93,11 +113,5 @@ export const ConteinerTypeTransasion = styled.div`
     &:hover{
        border-color: #aaa;
     }
-   
-    }
-    
 
-   
-    
-   
 `;
