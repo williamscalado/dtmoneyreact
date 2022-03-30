@@ -17,11 +17,8 @@ export const ContentButtons = styled.div`
 
 margin: 0 ;
 
-`;
-
-export const ButtonsHeader = styled.button`
-
-        font-size: 1rem;
+button { 
+    font-size: 1rem;
         margin-left: 0.9rem;
         padding: 0.8rem ;       
         color: #FFF;
@@ -35,5 +32,7 @@ export const ButtonsHeader = styled.button`
         filter: brightness(0.9);
     }
     
+}
 
 `;
+

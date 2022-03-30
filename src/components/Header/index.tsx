@@ -1,17 +1,21 @@
 import logoImg from '../../assets/logo.png'
-import { ButtonsHeader, Conteiner, Content, ContentButtons } from './style'
+import { Conteiner, Content, ContentButtons } from './style'
 
-export function Header() {
+interface propsModal {
+    openModal: () => void
+}
+
+export function Header({openModal} : propsModal) {
 
     return (
         <Conteiner>
             <Content>
                 <img src={logoImg} id="logo" alt="My Money " />                
-                <ContentButtons>
-                    <ButtonsHeader>Nova categoria</ButtonsHeader> 
-                    <ButtonsHeader>Sair</ButtonsHeader> 
+                <ContentButtons>                    
+                    <button onClick={openModal} >Nova categoria </button> 
+                    <button >Sair</button> 
                 </ContentButtons>
-                 </Content>
+            </Content>
         </Conteiner>
 
     )

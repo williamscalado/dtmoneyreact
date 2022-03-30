@@ -67,4 +67,35 @@ button{
 }
 
 
+.modal-style{
+    width: 576px;
+    background-color: var(--background);
+    padding: 0 2rem 2rem;
+    margin: auto;
+    border-radius: 0.5rem;
+    display: flex;
+}
+
+.modal-style-overlay{
+      display: flex;
+      justify-items: center;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.75);
+ 
+
+}
+.button-close-modal{
+    position: relative;
+    margin-right: 0;
+    padding: 1rem 1rem ;
+    float: right;
+    margin-top: 2px;
+    margin-right: 0px;
+}
+
 `
