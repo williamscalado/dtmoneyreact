@@ -1,4 +1,4 @@
-import { createServer } from 'miragejs';
+import { createServer, Model } from 'miragejs';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
@@ -6,7 +6,12 @@ import App from './App';
 
 createServer({
 
+    models:{
+        transasions: Model
+      },
+
   routes() {
+     
       
       
       this.get("/api/categories", () => ({
@@ -20,16 +25,18 @@ createServer({
           ]
       }))
 
-      this.get('/api/transasion', () => ({
-          transasions: [
-              { id: 11, desc: "Pagamento conta de luz", categoryid: 1, value: 500, data: "21/02/2022" , type: 0 },
-              { id: 22, desc: "compra de material de limpeza", categoryid: 2, value: 100, data: "19/02/2022", type: 0 },
-              { id: 33, desc: "Gasolina carro de Fulana", categoryid: 3, value: 247, data: "11/02/2022", type: 0 },
-              { id: 44, desc: "Curso de inglês", categoryid: 6, value: 500, data: "12/02/2022", type: 0 },
-              { id: 55, desc: "Recebimento de pagaemnto", categoryid: 4, value: 500, data: "25/02/2022", type: 1 },
-              { id: 66, desc: "Deposito na poupança", categoryid: 5, value: 100, data: "21/01/2022", type: 1 },
-          ]
-      }))
+      this.get('/api/transasion', () => {
+        
+        return this.schema.all('transasions')
+        
+      })
+
+      this.post('/api/transasion', (shcema, request)=>{
+
+        const data = JSON.parse(request.requestBody);
+        return shcema.create('transasions', data)
+
+      })
 
 
 

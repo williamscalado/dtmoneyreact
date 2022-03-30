@@ -53,7 +53,17 @@ export const ConteinerFormModal = styled.form`
         }
     }
 
-
+ .errormessage{
+     margin: 0.5rem 0.5rem;
+     border-radius: 0.5rem;
+     background-color: hsl(0, 100%, 93%) ;
+     width: 50%;
+     padding: 0.5rem;
+     font-size: 0.7rem;
+     border-color:1px solid red;
+     font-weight: 500;
+     opacity: 0.7;
+ }
 `;
 
 export const ConteinerTypeTransasion = styled.div`
@@ -90,7 +100,6 @@ padding-top: 1rem;
         display: flex;
         justify-content:center;
         align-content: center;
-
         border: 1.5px solid #DDD;
         box-sizing: border-box;
         border-radius: 0.25rem;
@@ -113,5 +122,10 @@ padding-top: 1rem;
     &:hover{
        border-color: #aaa;
     }
+
+`;
+
+export const errorMessageFormaModal = styled.span`
+margin: 0.6rem 0.6rem
 
 `;

@@ -37,12 +37,12 @@ export function TableTransasion({openModal}: porpsModal) {
                 </thead>
                 <tbody>
                     {trns.map(
-                        ({ id, desc, data, categoryid, value, type }) => {
+                        ({ id, titleTransasion, data, selectCategory, valueTrasasion, type }) => {
                             return (
                                 <tr key={id}>
-                                    <td>{desc}</td>
-                                    <td className={(type === 1) ? "expense" : "income"}>{value}</td>
-                                    <td>{categoryid}</td>
+                                    <td>{titleTransasion}</td>
+                                    <td className={(type === 1) ? "expense" : "income"}>{valueTrasasion}</td>
+                                    <td>{selectCategory}</td>
                                     <td>{data}<img src={ImgCalendar} alt="dat" /></td>
                                 </tr>
 

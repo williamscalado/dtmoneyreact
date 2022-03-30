@@ -4,31 +4,42 @@ import { Api } from '../../services/Api'
 import imgIncome from '../../assets/income.svg'
 import imgOutincome from '../../assets/outcome.svg'
 import imgClose from '../../assets/close.svg'
-import { ButtonActiveType, ConteinerFormModal, ConteinerTypeTransasion } from './style'
-import {  useForm } from 'react-hook-form'
+import { ButtonActiveType, ConteinerFormModal, ConteinerTypeTransasion, errorMessageFormaModal } from './style'
+import { useForm } from 'react-hook-form'
 interface propsFunctionModal {
     modalIsOpen: boolean,
     closeModal: () => void
 }
 
-interface IFormInput {
-    titleTrasasion: string,
-    faceValeu: string,
-    selectCategory: string
-}
-
-
-
 export const NewTransasionModal = ({ modalIsOpen, closeModal }: propsFunctionModal) => {
 
-    const [ButtonColorActive, setButtonColorActive ] = useState('')
+    const [ButtonColorActive, setButtonColorActive] = useState('')
     const [listCattegory, setListCattegory] = useState([])
 
-    const  {handleSubmit, register} = useForm()
-    
-    const onSubmit = (data: any) => console.log(data);
-    
-    
+    const { handleSubmit, register, formState: { errors } } = useForm()
+
+
+    const handlecretaeNewTrasasion = (data: any) => {
+        const idTrasasion = Math.floor(Math.random() * 1000)
+
+        const dataNewTrasasion = {
+            id: idTrasasion,
+            ...data,
+             type: ButtonColorActive,
+             data: Date.now()
+
+        }
+
+        Api.post('transasion', dataNewTrasasion)
+            .then((res) => {
+                closeModal();
+            })
+            .catch((error)=>{
+                console.log(error)
+            })
+    };
+
+
     useEffect(() => {
 
         Api.get('categories')
@@ -42,44 +53,47 @@ export const NewTransasionModal = ({ modalIsOpen, closeModal }: propsFunctionMod
     return (
         <Modal
             isOpen={modalIsOpen}
-            onRequestClose={() => {closeModal();setButtonColorActive('')}}
+            onRequestClose={() => { closeModal(); setButtonColorActive('') }}
             className={"modal-style"}
             overlayClassName={"modal-style-overlay"}
         >
 
             <ConteinerFormModal
-            onSubmit={handleSubmit(onSubmit)}
+                onSubmit={handleSubmit(handlecretaeNewTrasasion)}
             >
-                <img src={imgClose} className="button-close-modal" onClick={()=> {closeModal();setButtonColorActive('')}} alt="" />
+                <img src={imgClose} className="button-close-modal" onClick={() => { closeModal(); setButtonColorActive('') }} alt="" />
                 <h1>Cadastrar Transação</h1>
-                <input 
-                type="text" 
-                placeholder='Titulo'
-                {...register("titleTransasion", { required: true, minLength: 20 })}
+                <input
+                    type="text"
+                    placeholder='Titulo'
+                    {...register("titleTransasion", { required: true, minLength: 3 })}
                 />
-                <input 
-                type="text" 
-                placeholder='Valor'
-                {...register("faceValue", { required: true, minLength: 20})}
-                 />
+                {errors.titleTransasion && <p className='errormessage'>Precisamos de um título</p>}
+
+                <input
+                    type="number"
+                    placeholder='Valor'
+                    {...register("valueTrasasion", { required: true })}
+                />
+                {errors.valueTrasasion && <p className='errormessage'>Nenhum valor foi digitado</p>}
                 <ConteinerTypeTransasion>
 
                     <ButtonActiveType
-                    type="button"
-                    isActive = {ButtonColorActive === 'income'}
-                    onClick={() => {setButtonColorActive('income')}}
-                    color="green"
-                  
+                        type="button"
+                        isActive={ButtonColorActive === 'income'}
+                        onClick={() => { setButtonColorActive('income') }}
+                        color="green"
+
                     >
                         <img src={imgIncome} alt="Entrada" />
                         <span>Entradas</span>
                     </ButtonActiveType>
 
                     <ButtonActiveType
-                    type='button'
-                    color='red'
-                    isActive = {ButtonColorActive === 'expense'}
-                    onClick={() => {setButtonColorActive("expense")}}
+                        type='button'
+                        color='red'
+                        isActive={ButtonColorActive === 'expense'}
+                        onClick={() => { setButtonColorActive("expense") }}
                     >
                         <img src={imgOutincome} alt="Entrada" />
                         <span>Saídas</span>
@@ -87,11 +101,11 @@ export const NewTransasionModal = ({ modalIsOpen, closeModal }: propsFunctionMod
 
                 </ConteinerTypeTransasion>
 
-                <select 
-                 {...register('selectCategory')}
-                 id="categoryid"
-                 >
-                    <option value="0" key="0">Selecine uma categoria</option>
+                <select
+                    {...register('selectCategory', { required: "select one option" })}
+                    id="categoryid"
+                >
+                    <option value=""></option>
 
                     {listCattegory.map(({ id, name }) => {
 
@@ -101,6 +115,7 @@ export const NewTransasionModal = ({ modalIsOpen, closeModal }: propsFunctionMod
                     })}
 
                 </select>
+                {errors.selectCategory && <p className='errormessage'>Escolha uma categoria</p>}
 
                 <button className="sendbuttonmodal">Cadastrar</button>
 
