@@ -5,11 +5,18 @@ import imgIncome from '../../assets/income.svg'
 import imgOutincome from '../../assets/outcome.svg'
 import imgClose from '../../assets/close.svg'
 import { ButtonActiveType, ConteinerFormModal, ConteinerTypeTransasion } from './style'
-
+import {  useForm } from 'react-hook-form'
 interface propsFunctionModal {
     modalIsOpen: boolean,
     closeModal: () => void
 }
+
+interface IFormInput {
+    titleTrasasion: string,
+    faceValeu: string,
+    selectCategory: string
+}
+
 
 
 export const NewTransasionModal = ({ modalIsOpen, closeModal }: propsFunctionModal) => {
@@ -17,6 +24,11 @@ export const NewTransasionModal = ({ modalIsOpen, closeModal }: propsFunctionMod
     const [ButtonColorActive, setButtonColorActive ] = useState('')
     const [listCattegory, setListCattegory] = useState([])
 
+    const  {handleSubmit, register} = useForm()
+    
+    const onSubmit = (data: any) => console.log(data);
+    
+    
     useEffect(() => {
 
         Api.get('categories')
@@ -33,14 +45,23 @@ export const NewTransasionModal = ({ modalIsOpen, closeModal }: propsFunctionMod
             onRequestClose={() => {closeModal();setButtonColorActive('')}}
             className={"modal-style"}
             overlayClassName={"modal-style-overlay"}
-
         >
 
-            <ConteinerFormModal>
+            <ConteinerFormModal
+            onSubmit={handleSubmit(onSubmit)}
+            >
                 <img src={imgClose} className="button-close-modal" onClick={()=> {closeModal();setButtonColorActive('')}} alt="" />
                 <h1>Cadastrar Transação</h1>
-                <input type="text" placeholder='Titulo' />
-                <input type="text" placeholder='Valor' />
+                <input 
+                type="text" 
+                placeholder='Titulo'
+                {...register("titleTransasion", { required: true, minLength: 20 })}
+                />
+                <input 
+                type="text" 
+                placeholder='Valor'
+                {...register("faceValue", { required: true, minLength: 20})}
+                 />
                 <ConteinerTypeTransasion>
 
                     <ButtonActiveType
@@ -66,7 +87,10 @@ export const NewTransasionModal = ({ modalIsOpen, closeModal }: propsFunctionMod
 
                 </ConteinerTypeTransasion>
 
-                <select name="categoria" id="categoryid">
+                <select 
+                 {...register('selectCategory')}
+                 id="categoryid"
+                 >
                     <option value="0" key="0">Selecine uma categoria</option>
 
                     {listCattegory.map(({ id, name }) => {
