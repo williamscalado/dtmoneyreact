@@ -1,52 +1,19 @@
 import { ConteinerSearch, ConteinerTableTrasasion } from "./sytle";
 import ImgCalendar from '../../assets/calendar-color.png'
-import { useEffect, useState } from "react";
-import { Api } from "../../services/Api";
+import { useContext } from "react";
+import { TransasionContext } from "../hooks/Transasions";
+import { CategoriesContext } from "../hooks/Categories";
 
 interface porpsModal {
     openModal: () => void
 }
 
-interface ITransasion {
-    id: number
-    titleTransasion: string,
-    data: string,
-    selectCategory: number,
-    valueTrasasion: number,
-    type: number
-}
-interface ICategories {
-    id: number
-    name: string,
-    type: number,
-
-}
-
 export function TableTransasion({ openModal }: porpsModal) {
 
+    const { transactions } = useContext(TransasionContext)
+    const categoriesData = useContext(CategoriesContext)    
 
-
-
-    const [trns, setTrns] = useState<ITransasion[]>([])
-
-    useEffect(() => {
-        Api.get('transasion/')
-            .then(response => {
-                setTrns(response.data.transasions)
-            })
-
-    }, [])
-
-    const [categories, setCategories] = useState<ICategories[]>([])
-
-
-    useEffect(() => {
-        Api.get('categories/')
-            .then(response => {
-                setCategories(response.data.categories)
-
-            })
-    },[])
+    transactions.sort((a, b) => new Date(b.data).getTime() - new Date(a.data).getTime());
 
     return (
 
@@ -65,7 +32,7 @@ export function TableTransasion({ openModal }: porpsModal) {
                     </tr>
                 </thead>
                 <tbody>
-                    {trns.map(
+                    {transactions.map(
                         (response) => {
                             return (
                                 <tr key={response.id}>
@@ -81,7 +48,7 @@ export function TableTransasion({ openModal }: porpsModal) {
                                         }
                                     </td>
                                     <td>{
-                                        categories
+                                        categoriesData
                                            .find((item) => item.id == response?.selectCategory)?.name
                                     }</td>
                                     <td>{
