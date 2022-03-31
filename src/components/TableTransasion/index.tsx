@@ -3,21 +3,50 @@ import ImgCalendar from '../../assets/calendar-color.png'
 import { useEffect, useState } from "react";
 import { Api } from "../../services/Api";
 
-interface porpsModal { 
+interface porpsModal {
     openModal: () => void
 }
 
-export function TableTransasion({openModal}: porpsModal) {
+interface ITransasion {
+    id: number
+    titleTransasion: string,
+    data: string,
+    selectCategory: number,
+    valueTrasasion: number,
+    type: number
+}
+interface ICategories {
+    id: number
+    name: string,
+    type: number,
 
-    const [trns, setTrns] = useState([])
+}
+
+export function TableTransasion({ openModal }: porpsModal) {
+
+
+
+
+    const [trns, setTrns] = useState<ITransasion[]>([])
 
     useEffect(() => {
         Api.get('transasion/')
             .then(response => {
                 setTrns(response.data.transasions)
             })
-            
+
     }, [])
+
+    const [categories, setCategories] = useState<ICategories[]>([])
+
+
+    useEffect(() => {
+        Api.get('categories/')
+            .then(response => {
+                setCategories(response.data.categories)
+
+            })
+    },[])
 
     return (
 
@@ -37,13 +66,29 @@ export function TableTransasion({openModal}: porpsModal) {
                 </thead>
                 <tbody>
                     {trns.map(
-                        ({ id, titleTransasion, data, selectCategory, valueTrasasion, type }) => {
+                        (response) => {
                             return (
-                                <tr key={id}>
-                                    <td>{titleTransasion}</td>
-                                    <td className={(type === 1) ? "expense" : "income"}>{valueTrasasion}</td>
-                                    <td>{selectCategory}</td>
-                                    <td>{data}<img src={ImgCalendar} alt="dat" /></td>
+                                <tr key={response.id}>
+                                    <td>{response.titleTransasion}</td>
+                                    <td className={(response.type === 1) ? "expense" : "income"}>
+                                        {
+                                            new Intl.NumberFormat('pt-br',
+                                                {
+                                                    style: "currency",
+                                                    currency: 'BRL'
+                                                })
+                                                .format(response.valueTrasasion)
+                                        }
+                                    </td>
+                                    <td>{
+                                        categories
+                                           .find((item) => item.id == response?.selectCategory)?.name
+                                    }</td>
+                                    <td>{
+                                        new Intl.DateTimeFormat('pt-br')
+                                            .format(new Date(response.data))
+                                    }
+                                        <img src={ImgCalendar} alt="dat" /></td>
                                 </tr>
 
                             )
