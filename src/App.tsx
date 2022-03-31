@@ -6,6 +6,8 @@ import { NewCategoryModal } from './components/NewcategoryModal';
 import { NewTransasionModal } from './components/NewTransasionModal';
 import { TableTransasion } from './components/TableTransasion';
 import Modal from 'react-modal'
+import { TransasionsProvider } from './components/hooks/Transasions';
+import { CategoriesProvider } from './components/hooks/Categories';
 
 Modal.setAppElement('#root');
 
@@ -16,20 +18,26 @@ function App() {
   function closeModalNewTransasion() { setIsOpenModalNewTransasion(false) }
 
   const [isOpenNewCategory, setisOpenNewCategory] = useState(false)
-  function openModalNewCategory(){setisOpenNewCategory(true)}
-  function closeModalNewCategory(){setisOpenNewCategory(false)}
+  function openModalNewCategory() { setisOpenNewCategory(true) }
+  function closeModalNewCategory() { setisOpenNewCategory(false) }
 
 
   return (
     <>
-      <GlobalStyle />
-      <Header openModal={openModalNewCategory} />
-      <Dashboard />
-      <NewTransasionModal modalIsOpen={isOpenModalNewTransasion} closeModal={closeModalNewTransasion}/>
-      <NewCategoryModal modalIsOpen={isOpenNewCategory} closeModal={closeModalNewCategory} />
-      <TableTransasion openModal={openModalNewTransasion} />
+      <CategoriesProvider>
+        <TransasionsProvider>
 
+          <GlobalStyle />
+          <Header openModal={openModalNewCategory} />
+          <Dashboard />
+          <NewTransasionModal modalIsOpen={isOpenModalNewTransasion} closeModal={closeModalNewTransasion} />
+          <NewCategoryModal modalIsOpen={isOpenNewCategory} closeModal={closeModalNewCategory} />
+          <TableTransasion openModal={openModalNewTransasion} />
+        
+        </TransasionsProvider>
+      </CategoriesProvider>
     </>
+
   )
 }
 

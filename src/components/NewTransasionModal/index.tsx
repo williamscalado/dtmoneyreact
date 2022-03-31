@@ -1,11 +1,18 @@
-import { useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import Modal from 'react-modal'
-import { Api } from '../../services/Api'
+import { CategoriesContext } from '../hooks/Categories'
+import { TransasionContext } from '../hooks/Transasions'
+import { useForm } from 'react-hook-form'
+
+
 import imgIncome from '../../assets/income.svg'
 import imgOutincome from '../../assets/outcome.svg'
 import imgClose from '../../assets/close.svg'
-import { ButtonActiveType, ConteinerFormModal, ConteinerTypeTransasion, errorMessageFormaModal } from './style'
-import { useForm } from 'react-hook-form'
+
+
+import { ButtonActiveType, ConteinerFormModal, ConteinerTypeTransasion } from './style'
+
+
 interface propsFunctionModal {
     modalIsOpen: boolean,
     closeModal: () => void
@@ -14,41 +21,33 @@ interface propsFunctionModal {
 export const NewTransasionModal = ({ modalIsOpen, closeModal }: propsFunctionModal) => {
 
     const [ButtonColorActive, setButtonColorActive] = useState('')
-    const [listCattegory, setListCattegory] = useState([])
+    const listCattegory = useContext(CategoriesContext)
 
-    const { handleSubmit, register, formState: { errors } } = useForm()
+    const { createTransactions } = useContext(TransasionContext)
+
+    const { handleSubmit, register, formState: { errors }, reset } = useForm()
 
 
-    const handlecretaeNewTrasasion = (data: any) => {
+    const handlecretaeNewTrasasion = async (data: any) => {
         const idTrasasion = Math.floor(Math.random() * 1000)
 
         const dataNewTrasasion = {
             id: idTrasasion,
             ...data,
-             type: ButtonColorActive,
-             data: Date.now()
+            type: ButtonColorActive,
+            data: Date.now()
 
         }
 
-        Api.post('transasion', dataNewTrasasion)
-            .then((res) => {
-                closeModal();
-            })
-            .catch((error)=>{
-                console.log(error)
-            })
+        await createTransactions(dataNewTrasasion)
+
+        reset()
+        setButtonColorActive('')
+        closeModal()
+
     };
 
 
-    useEffect(() => {
-
-        Api.get('categories')
-            .then(response => {
-                setListCattegory(response.data.categories)
-                
-            })
-
-    }, [])
 
     return (
         <Modal
