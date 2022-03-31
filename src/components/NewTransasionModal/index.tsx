@@ -34,7 +34,7 @@ export const NewTransasionModal = ({ modalIsOpen, closeModal }: propsFunctionMod
         const dataNewTrasasion = {
             id: idTrasasion,
             ...data,
-            type: ButtonColorActive,
+            type: ButtonColorActive === 'income' ? 1 : 0,
             data: Date.now()
 
         }

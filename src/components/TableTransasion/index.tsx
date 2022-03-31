@@ -3,6 +3,7 @@ import ImgCalendar from '../../assets/calendar-color.png'
 import { useContext } from "react";
 import { TransasionContext } from "../hooks/Transasions";
 import { CategoriesContext } from "../hooks/Categories";
+import { formatCurrency } from "../../util/functions";
 
 interface porpsModal {
     openModal: () => void
@@ -11,7 +12,7 @@ interface porpsModal {
 export function TableTransasion({ openModal }: porpsModal) {
 
     const { transactions } = useContext(TransasionContext)
-    const categoriesData = useContext(CategoriesContext)    
+    const categoriesData = useContext(CategoriesContext)
 
     transactions.sort((a, b) => new Date(b.data).getTime() - new Date(a.data).getTime());
 
@@ -37,19 +38,14 @@ export function TableTransasion({ openModal }: porpsModal) {
                             return (
                                 <tr key={response.id}>
                                     <td>{response.titleTransasion}</td>
-                                    <td className={(response.type === 1) ? "expense" : "income"}>
+                                    <td className={(response.type === 0) ? "expense" : "income"}>
                                         {
-                                            new Intl.NumberFormat('pt-br',
-                                                {
-                                                    style: "currency",
-                                                    currency: 'BRL'
-                                                })
-                                                .format(response.valueTrasasion)
+                                            formatCurrency(response.valueTrasasion)
                                         }
                                     </td>
                                     <td>{
                                         categoriesData
-                                           .find((item) => item.id == response?.selectCategory)?.name
+                                            .find((item) => item.id == response?.selectCategory)?.name
                                     }</td>
                                     <td>{
                                         new Intl.DateTimeFormat('pt-br')
