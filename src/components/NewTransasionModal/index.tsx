@@ -45,7 +45,7 @@ export const NewTransasionModal = ({ modalIsOpen, closeModal }: propsFunctionMod
         Api.get('categories')
             .then(response => {
                 setListCattegory(response.data.categories)
-                console.log(response.data.categories)
+                
             })
 
     }, [])
