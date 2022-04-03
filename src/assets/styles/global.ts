@@ -23,6 +23,9 @@ export const GlobalStyle = createGlobalStyle`
     
     --shape-box: #02849B;
 
+    --green-sucess: hsl(120,100%,90%);
+    --red-danger: hsl(0, 100%, 90%);
+
 }
 
 *{

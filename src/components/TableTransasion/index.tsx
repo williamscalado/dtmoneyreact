@@ -1,9 +1,10 @@
 import { ConteinerSearch, ConteinerTableTrasasion } from "./sytle";
 import ImgCalendar from '../../assets/calendar-color.png'
-import { useContext } from "react";
-import { TransasionContext } from "../hooks/Transasions";
-import { CategoriesContext } from "../hooks/Categories";
+import { Suspense, useContext } from "react";
+import { TransasionContext } from "../../hooks/Transasions";
+import { CategoriesContext } from "../../hooks/Categories";
 import { formatCurrency } from "../../util/functions";
+import { LoadingContainer } from "../Loading";
 
 interface porpsModal {
     openModal: () => void
@@ -12,16 +13,16 @@ interface porpsModal {
 export function TableTransasion({ openModal }: porpsModal) {
 
     const { transactions } = useContext(TransasionContext)
-    const categoriesData = useContext(CategoriesContext)
+    const {categories} = useContext(CategoriesContext)
 
     transactions.sort((a, b) => new Date(b.data).getTime() - new Date(a.data).getTime());
-
+    
     return (
-
+        <Suspense fallback={LoadingContainer}>
         <ConteinerTableTrasasion>
             <ConteinerSearch>
-                <input type="text" placeholder="Buscar transição" />
-                <button onClick={openModal}>Nova Transição</button>
+                <input type="text" placeholder="Buscar..." />
+                <button onClick={openModal}>+ Adicionar registro</button>
             </ConteinerSearch>
             <table>
                 <thead>
@@ -44,7 +45,7 @@ export function TableTransasion({ openModal }: porpsModal) {
                                         }
                                     </td>
                                     <td>{
-                                        categoriesData
+                                        categories
                                             .find((item) => item.id == response?.selectCategory)?.name
                                     }</td>
                                     <td>{
@@ -61,5 +62,6 @@ export function TableTransasion({ openModal }: porpsModal) {
                 </tbody>
             </table>
         </ConteinerTableTrasasion>
+        </Suspense>
     )
 }

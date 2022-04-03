@@ -1,5 +1,5 @@
 import {  createContext, useEffect, ReactNode, useState } from 'react'
-import { Api } from '../../../services/Api'
+import { Api } from '../../services/Api'
 
 
 export interface ITransaction{

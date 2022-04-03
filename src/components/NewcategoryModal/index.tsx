@@ -1,20 +1,71 @@
+import React from 'react'
+import { useContext } from 'react'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
 import Modal from 'react-modal'
-import { stylemodal } from './style'
+import * as Yup from 'yup'
+import { CategoriesContext } from '../../hooks/Categories'
+import { FormModalCategory } from './style'
+
 
 interface propsModalCategory {
     modalIsOpen: boolean,
-    closeModal: ()=> void
+    closeModal: () => void
 }
 
-export const NewCategoryModal = ({modalIsOpen, closeModal}: propsModalCategory) =>{
+interface   IFormInput {
+    nameCategory: string,
 
-return(
-    <Modal
-    isOpen={modalIsOpen}
-    onRequestClose={closeModal}
-    style={stylemodal}
-    >
-        <h1>teste Category</h1>
-    </Modal>
-)
 }
+
+export const NewCategoryModal = ({ modalIsOpen, closeModal }: propsModalCategory) => {
+
+
+    const { CreateNewCategory } = useContext(CategoriesContext)
+
+    const ValidationForm = Yup.object({
+                nameCategory: Yup.string().required()
+            })
+    
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<IFormInput>({
+        resolver: yupResolver(ValidationForm)
+    })
+
+
+    const onSubmit = (e: IFormInput) => {
+        
+        const idcategory= Math.floor(Math.random() * 1000)
+        const Newdata = {
+            id: idcategory,
+            name: e.nameCategory
+        }
+        CreateNewCategory(Newdata)
+
+        closeModal()
+        reset()
+        
+      };    
+
+
+    return (
+        <Modal
+            isOpen={modalIsOpen}
+            onRequestClose={closeModal}
+            className={"modal-style"}
+            overlayClassName={"modal-style-overlay"}
+        >
+            <FormModalCategory
+                onSubmit={handleSubmit(onSubmit)}
+            >
+                <h1>Adicionando uma categoria</h1>
+                <input 
+                {...register("nameCategory")}
+                 className={(errors.nameCategory) ? "bg-red" : ""}
+                 placeholder="nome da categoria"
+                 />
+                <button type='submit'>Adicionar Categoria</button>
+            </FormModalCategory>
+        </Modal>
+    )
+}
+

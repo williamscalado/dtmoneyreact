@@ -26,6 +26,16 @@ border-radius: 0.5rem;
         }
 
     }
+    &.bgred{
+    
+        background-color: var(--red);
+        color: #fff;
+        
+        p{
+        color: #fff;
+        }
+
+    }
 
     p{
     color: var(--text-title);

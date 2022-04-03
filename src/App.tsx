@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { GlobalStyle } from './assets/styles/global';
 import { Dashboard } from './components/Dashboard';
 import { Header } from './components/Header';
-import { NewCategoryModal } from './components/NewcategoryModal';
+import { NewCategoryModal } from './components/NewCategoryModal';
 import { NewTransasionModal } from './components/NewTransasionModal';
 import { TableTransasion } from './components/TableTransasion';
 import Modal from 'react-modal'
-import { TransasionsProvider } from './components/hooks/Transasions';
-import { CategoriesProvider } from './components/hooks/Categories';
+import { TransasionsProvider } from './hooks/Transasions';
+import { CategoriesProvider } from './hooks/Categories';
 
 Modal.setAppElement('#root');
 
@@ -24,6 +24,7 @@ function App() {
 
   return (
     <>
+    
       <CategoriesProvider>
         <TransasionsProvider>
 
@@ -36,6 +37,7 @@ function App() {
         
         </TransasionsProvider>
       </CategoriesProvider>
+     
     </>
 
   )

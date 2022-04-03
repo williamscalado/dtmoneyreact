@@ -3,7 +3,7 @@ import imgIncome from '../../assets/income.svg'
 import imgOutcome from '../../assets/outcome.svg'
 import imgResult from '../../assets/total.svg'
 import { useContext } from "react";
-import { TransasionContext } from "../hooks/Transasions";
+import { TransasionContext } from "../../hooks/Transasions";
 import { formatCurrency } from "../../util/functions";
 
 
@@ -52,9 +52,11 @@ export function Sumary() {
                 <strong>{formatCurrency(SumTransactions.expense)}</strong>
             </SumaryContent>
 
-            <SumaryContent className="bggreen" >
+            <SumaryContent 
+            className={SumTransactions.sumall > 0 ? "bggreen" : "bgred"} 
+            >
                 <SumaryHeader>
-                    <p>Total</p>
+                    <p>Saldo total</p>
                     <img src={imgResult} alt="" />
                 </SumaryHeader>
                 <strong>{formatCurrency(SumTransactions.sumall)}</strong>

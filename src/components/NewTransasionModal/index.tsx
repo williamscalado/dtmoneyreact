@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react'
 import Modal from 'react-modal'
-import { CategoriesContext } from '../hooks/Categories'
-import { TransasionContext } from '../hooks/Transasions'
+import { CategoriesContext } from '../../hooks/Categories'
+import { TransasionContext } from '../../hooks/Transasions'
 import { useForm } from 'react-hook-form'
 
 
@@ -21,7 +21,7 @@ interface propsFunctionModal {
 export const NewTransasionModal = ({ modalIsOpen, closeModal }: propsFunctionModal) => {
 
     const [ButtonColorActive, setButtonColorActive] = useState('')
-    const listCattegory = useContext(CategoriesContext)
+    const { categories } = useContext(CategoriesContext)
 
     const { createTransactions } = useContext(TransasionContext)
 
@@ -106,7 +106,7 @@ export const NewTransasionModal = ({ modalIsOpen, closeModal }: propsFunctionMod
                 >
                     <option value=""></option>
 
-                    {listCattegory.map(({ id, name }) => {
+                    {categories.map(({ id, name }) => {
 
                         return (
                             <option value={id} key={id}>{name}</option>
