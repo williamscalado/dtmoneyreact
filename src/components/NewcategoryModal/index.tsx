@@ -8,6 +8,7 @@ import { CategoriesContext } from '../../hooks/Categories'
 import { FormModalCategory } from './style'
 
 
+
 interface propsModalCategory {
     modalIsOpen: boolean,
     closeModal: () => void
