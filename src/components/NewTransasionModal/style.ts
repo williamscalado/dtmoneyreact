@@ -52,6 +52,16 @@ export const ConteinerFormModal = styled.form`
             filter: brightness(0.9);
         }
     }
+    span{
+        font-size: 0.7rem;
+        font-weight: 400;
+        margin-left: 0.5rem;
+    }
+
+  .bg-red{
+      background-color: var(--red-danger);
+      border-color: var(--red);
+  }
 
  .errormessage{
      margin: 0.5rem 0.5rem;

@@ -6,7 +6,7 @@ import Modal from 'react-modal'
 import * as Yup from 'yup'
 import { CategoriesContext } from '../../hooks/Categories'
 import { FormModalCategory } from './style'
-
+import imgClose from '../../assets/close.svg'
 
 
 interface propsModalCategory {
@@ -55,15 +55,18 @@ export const NewCategoryModal = ({ modalIsOpen, closeModal }: propsModalCategory
             className={"modal-style"}
             overlayClassName={"modal-style-overlay"}
         >
+          
             <FormModalCategory
                 onSubmit={handleSubmit(onSubmit)}
             >
+                <img src={imgClose} className="button-close-modal" onClick={() => {closeModal(); reset()}} alt="" />
                 <h1>Adicionando uma categoria</h1>
                 <input 
                 {...register("nameCategory")}
                  className={(errors.nameCategory) ? "bg-red" : ""}
                  placeholder="nome da categoria"
                  />
+                 {errors.nameCategory && <span> Preencha um nome válido para categoria </span>}
                 <button type='submit'>Adicionar Categoria</button>
             </FormModalCategory>
         </Modal>

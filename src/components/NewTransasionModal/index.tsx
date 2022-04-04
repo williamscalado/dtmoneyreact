@@ -3,7 +3,7 @@ import Modal from 'react-modal'
 import { CategoriesContext } from '../../hooks/Categories'
 import { TransasionContext } from '../../hooks/Transasions'
 import { useForm} from 'react-hook-form'
-
+import * as Yup  from 'yup'
 import imgIncome from '../../assets/income.svg'
 import imgOutincome from '../../assets/outcome.svg'
 import imgClose from '../../assets/close.svg'
@@ -24,15 +24,19 @@ export const NewTransasionModal = ({ modalIsOpen, closeModal }: propsFunctionMod
     const { categories } = useContext(CategoriesContext)
 
     const { createTransactions } = useContext(TransasionContext)
-    const { handleSubmit, register, formState: { errors }, reset, control } = useForm()
+    const { handleSubmit, register, formState: { errors }, reset} = useForm()
 
+   
+    const [buttonError, setButtonError] = useState(false)
 
-
-
-
+   
+    
     const handlecretaeNewTrasasion = async (data: any) => {
         const idTrasasion = Math.floor(Math.random() * 1000)
         data.valueTrasasion = parseFloat(data.valueTrasasion.replace(/[^0-9,]*/g, '').replace(',', '.')).toFixed(2);
+
+        if(ButtonColorActive==='') { setButtonError(true); return false }
+         
 
         const dataNewTrasasion = {
             id: idTrasasion,
@@ -50,8 +54,8 @@ export const NewTransasionModal = ({ modalIsOpen, closeModal }: propsFunctionMod
 
     };
 
-
-
+    
+    
     return (
         <Modal
             isOpen={modalIsOpen}
@@ -69,48 +73,52 @@ export const NewTransasionModal = ({ modalIsOpen, closeModal }: propsFunctionMod
                     type="text"
                     placeholder='Titulo'
                     {...register("titleTransasion", { required: true, minLength: 3 })}
+                    className={(errors.titleTransasion) ? "bg-red" : ""}
                 />
-                {errors.titleTransasion && <p className='errormessage'>Precisamos de um título</p>}
+                {errors.titleTransasion && <span>Preencha o título da transação!</span>}
 
                 <input
                     type="text"
                     placeholder='Valor'
                     {...register("valueTrasasion", { required: true })}
+                    className={(errors.valueTrasasion) ? "bg-red" : ""}
                     onChange={e => { currencyMask(e) }}
                 />
-
-
-                {errors.valueTrasasion && <p className='errormessage'>Nenhum valor foi digitado</p>}
-
+                {errors.valueTrasasion && <span>Preencha um valor válido por favor!</span>}
+               
 
                 <ConteinerTypeTransasion>
 
                     <ButtonActiveType
                         type="button"
                         isActive={ButtonColorActive === 'income'}
-                        onClick={() => { setButtonColorActive('income') }}
+                        onClick={() => { setButtonColorActive('income'); setButtonError(false)  }}
                         color="green"
 
                     >
                         <img src={imgIncome} alt="Entrada" />
-                        <span>Entradas</span>
+                        <span>Entrada</span>
                     </ButtonActiveType>
 
                     <ButtonActiveType
                         type='button'
                         color='red'
                         isActive={ButtonColorActive === 'expense'}
-                        onClick={() => { setButtonColorActive("expense") }}
+                        onClick={() => { setButtonColorActive("expense"); setButtonError(false) }}
                     >
                         <img src={imgOutincome} alt="Entrada" />
-                        <span>Saídas</span>
+                        <span>Saída</span>
                     </ButtonActiveType>
+                
+                {buttonError === true  && <span>Selecione se é uma entrada ou sáida!</span>}
 
                 </ConteinerTypeTransasion>
 
                 <select
-                    {...register('selectCategory', { required: "select one option" })}
+                    {...register('selectCategory', { required: true })}
                     id="categoryid"
+                    className={(errors.selectCategory) ? "bg-red" : ""}
+                   
                 >
                     <option value=""></option>
 
@@ -122,8 +130,14 @@ export const NewTransasionModal = ({ modalIsOpen, closeModal }: propsFunctionMod
                     })}
 
                 </select>
-                {errors.selectCategory && <p className='errormessage'>Escolha uma categoria</p>}
+                {errors.selectCategory && <span>Selecione uma categoria!</span>}
 
+                
+               <div>
+                
+               </div>
+
+               
                 <button className="sendbuttonmodal">Cadastrar</button>
 
 

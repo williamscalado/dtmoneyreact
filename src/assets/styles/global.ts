@@ -97,8 +97,10 @@ button{
     margin-right: 0;
     padding: 1rem 1rem ;
     float: right;
-    margin-top: 2px;
+    margin-top: 1rem;
     margin-right: 0px;
 }
 
-`
+
+
+`;

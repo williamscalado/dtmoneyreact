@@ -8,7 +8,7 @@ width: 100%;
   input{
     margin: 1rem 0.5rem;
     padding: 0.9rem;
-    border: 1px solid #CCC;
+    
     border-radius: 0.5rem;
     width: 100%;
     
@@ -29,6 +29,11 @@ width: 100%;
     margin: 1rem 0.5rem;
     font-size: 1.5rem;
   }
+  span{
+        font-size: 0.7rem;
+        font-weight: 400;
+        margin-left: 0.5rem;
+    }
 
   .bg-red{
       background-color: var(--red-danger);
