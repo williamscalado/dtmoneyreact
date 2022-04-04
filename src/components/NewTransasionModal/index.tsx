@@ -2,8 +2,7 @@ import { useContext, useState } from 'react'
 import Modal from 'react-modal'
 import { CategoriesContext } from '../../hooks/Categories'
 import { TransasionContext } from '../../hooks/Transasions'
-import { useForm } from 'react-hook-form'
-
+import { useForm} from 'react-hook-form'
 
 import imgIncome from '../../assets/income.svg'
 import imgOutincome from '../../assets/outcome.svg'
@@ -11,6 +10,7 @@ import imgClose from '../../assets/close.svg'
 
 
 import { ButtonActiveType, ConteinerFormModal, ConteinerTypeTransasion } from './style'
+import { currencyMask } from '../../util/functions'
 
 
 interface propsFunctionModal {
@@ -24,12 +24,15 @@ export const NewTransasionModal = ({ modalIsOpen, closeModal }: propsFunctionMod
     const { categories } = useContext(CategoriesContext)
 
     const { createTransactions } = useContext(TransasionContext)
+    const { handleSubmit, register, formState: { errors }, reset, control } = useForm()
 
-    const { handleSubmit, register, formState: { errors }, reset } = useForm()
+
+
 
 
     const handlecretaeNewTrasasion = async (data: any) => {
         const idTrasasion = Math.floor(Math.random() * 1000)
+        data.valueTrasasion = parseFloat(data.valueTrasasion.replace(/[^0-9,]*/g, '').replace(',', '.')).toFixed(2);
 
         const dataNewTrasasion = {
             id: idTrasasion,
@@ -70,11 +73,16 @@ export const NewTransasionModal = ({ modalIsOpen, closeModal }: propsFunctionMod
                 {errors.titleTransasion && <p className='errormessage'>Precisamos de um título</p>}
 
                 <input
-                    type="number"
+                    type="text"
                     placeholder='Valor'
                     {...register("valueTrasasion", { required: true })}
+                    onChange={e => { currencyMask(e) }}
                 />
+
+
                 {errors.valueTrasasion && <p className='errormessage'>Nenhum valor foi digitado</p>}
+
+
                 <ConteinerTypeTransasion>
 
                     <ButtonActiveType
